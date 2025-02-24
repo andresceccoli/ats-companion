@@ -2,14 +2,13 @@ import { Itinerary, ItineraryItem, newItineraryId } from "@/model/Itinerary";
 import { create } from "zustand";
 
 interface ItineraryStoreFunctions {
-    loaded: boolean;
     updateHeader: (startCity?: string, endCity?: string, endPlace?: string) => void;
     addItem: <I extends ItineraryItem>(item: I) => void;
     updateItem: <I extends ItineraryItem>(index: number, item: I) => void;
     removeItem: (index: number) => void;
     clear: () => void;
     save: () => void;
-    load: (id: string) => Promise<boolean>;
+    load: (it: Itinerary) => void;
 }
 
 type ItineraryStore = Itinerary & ItineraryStoreFunctions;
@@ -17,7 +16,6 @@ type ItineraryStore = Itinerary & ItineraryStoreFunctions;
 const useItineraryStore = create<ItineraryStore>((set,get) => ({
     id: newItineraryId(),
     items: [],
-    loaded: false,
 
     updateHeader(startCity, endCity, endPlace) {
         set(() => ({ startCity, endCity, endPlace }));
@@ -38,8 +36,10 @@ const useItineraryStore = create<ItineraryStore>((set,get) => ({
     clear() {
         set({
             id: newItineraryId(),
+            startCity: '',
+            endCity: '',
+            endPlace: '',
             items: [],
-            loaded: false,
         })
     },
     async save() {
@@ -50,19 +50,8 @@ const useItineraryStore = create<ItineraryStore>((set,get) => ({
 
         console.log('saved', );
     },
-    async load(id) {
-        try {
-            const it = localStorage.getItem(`itinerary-${id}`);
-            if (it) {
-                const itObject = JSON.parse(it);
-                set({ ...itObject, loaded: true });
-                return true;
-            }
-        } catch (e) {
-            console.error('Error loading itinerary', e);
-        }
-        set({ loaded: false });
-        return false;
+    load(it) {
+        set({ ...it });
     },
 }));
 

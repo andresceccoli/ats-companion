@@ -3,6 +3,7 @@ import { HiMiniArrowLongUp, HiMiniArrowTurnUpLeft, HiMiniArrowTurnUpRight } from
 import interstate from "../icons/interstate.svg";
 import usroute from "../icons/usroute.svg";
 import Image from "next/image";
+import ItemContainer from "./item-container";
 
 const turnIcons = {
     [TurnDirection.Left]: <HiMiniArrowTurnUpLeft />,
@@ -31,15 +32,17 @@ const getRoadPrefix = (roadItem: RoadItem) => {
 
 const RoadItemComponent = ({ item }: { item: RoadItem }) => {
     return (
-        <div className="flex gap-2 pb-2">
-            <span>{turnIcons[item.turnDirection]}</span>
-            {(item.roadType === RoadType.I || item.roadType === RoadType.US) &&
-                <span>{roadTypeIcons[item.roadType]}</span>
-            }
-            <span className="font-bold">{getRoadPrefix(item)}{item.roadName}</span>
-            <div className="flex gap-1">{item.cardinalDirections.map((d, i) => <CardinalSign key={i} cardinalDirection={d} />)}</div>
+        <ItemContainer>
+            <div className="flex gap-2 flex-1 items-center">
+                <span>{turnIcons[item.turnDirection]}</span>
+                {(item.roadType === RoadType.I || item.roadType === RoadType.US) &&
+                    <span>{roadTypeIcons[item.roadType]}</span>
+                }
+                <span className="font-bold">{getRoadPrefix(item)}{item.roadName}</span>
+                <div className="flex gap-1">{item.cardinalDirections.map((d, i) => <CardinalSign key={i} cardinalDirection={d} />)}</div>
+            </div>
             {item.exitCode && <ExitSign exitCode={item.exitCode} />}
-        </div>
+        </ItemContainer>
     );
 };
 
@@ -47,7 +50,7 @@ const CardinalSign = ({ cardinalDirection } : {
     cardinalDirection: CardinalDirection
 }) => {
     return (
-        <div className="flex px-1 py-0 items-center">
+        <div className="flex py-0 items-center">
             <span className="font-semibold text-emerald-600 uppercase"
                 style={{ lineHeight: "16px" }}>{getCardinalLabel(cardinalDirection)}</span>
         </div>

@@ -14,7 +14,7 @@ const RouteDetails = ({ params }: { params: Promise<{ routeId: string }>}) => {
     const { routeId } = use(params);
 
     const {
-        load, loaded,
+        load, clear,
         ...itinerary
     } = useItineraryStore(useShallow(state => ({
         id: state.id,
@@ -23,29 +23,33 @@ const RouteDetails = ({ params }: { params: Promise<{ routeId: string }>}) => {
         endPlace: state.endPlace,
         items: state.items,
         load: state.load,
-        loaded: state.loaded
+        clear: state.clear
     })));
 
+    const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>();
     useEffect(() => {
         if (routeId && !loaded) {
-            load(routeId).then(result => {
-                if (!result) {
-                    setError('Could not load itinerary');
+            try {
+                const it = localStorage.getItem(`itinerary-${routeId}`);
+                if (it) {
+                    const itObject = JSON.parse(it);
+                    load(itObject);
+                    setLoaded(true);
                 }
-            })
+            } catch (e: unknown) {
+                setError((e as Error).message);
+            }
         }
-    }, [routeId, loaded, load]);
-
-    console.log(itinerary && itinerary.items);
+    }, [routeId, loaded, load, clear]);
 
     return (
         <div>
             {!loaded && !error && <p>Loading...</p>}
             {!loaded && error && <p>{error}</p>}
             {loaded &&
-            <div className="flex flex-col p-5 gap-3 max-w-screen-md">
-                <div className="flex items-center justify-start gap-10">
+            <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between gap-10">
                     <h3 className="text-2xl">Route ID</h3>
                     <Button.Group>
                         <Button color="light" size="lg">
@@ -66,7 +70,7 @@ const RouteDetails = ({ params }: { params: Promise<{ routeId: string }>}) => {
                         <HiLocationMarker /> {itinerary.endCity}
                     </div>
                 </div>
-                <div className="flex items-center justify-end">
+                <div className="flex items-center gap-2 justify-end">
                     <HiMiniBuildingOffice /> {itinerary.endPlace}
                 </div>
                 <div className="flex flex-col mt-4">

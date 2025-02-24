@@ -1,18 +1,22 @@
 'use client'
 
-import { Geist, Geist_Mono } from "next/font/google";
+// import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { DarkThemeToggle, Flowbite, ThemeModeScript } from "flowbite-react";
+import { Button, DarkThemeToggle, Flowbite, Navbar, ThemeModeScript } from "flowbite-react";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+import useItineraryStore from "./route/itinerary-store";
+import { useShallow } from "zustand/shallow";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 export default function RootLayout({
   children,
@@ -20,9 +24,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  const router = useRouter();
+
+  const { clearStore, startCity } = useItineraryStore(useShallow(state => ({ clearStore: state.clear, startCity: state.startCity })));
+
+  const onNewRoute = useCallback(() => {
+    clearStore();
+    router.push('/route/new');
+  }, [clearStore, router]);
+
+  console.log('start city', startCity);
+
   return (
     <html lang="en">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
         <ThemeModeScript />
         {/* <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,12 +48,26 @@ export default function RootLayout({
         @import url(&quot;https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
         </style>
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <Flowbite>
-          {children}
-          <DarkThemeToggle />
+          <div className="bg-blue-900 dark:bg-gray-900 flex flex-col">
+            <main className="flex justify-center">  
+              <section className="mx-0 md:mx-20 flex-1 bg-white dark:bg-gray-800 min-h-screen">
+                <Navbar fluid rounded>
+                  <Navbar.Brand href="/">
+                    <span className="text-2xl font-bold">American</span><span className="text-2xl">Companion</span>
+                  </Navbar.Brand>
+                  <div className="flex md:order-2 gap-2">
+                    <Button onClick={onNewRoute}>New Route</Button>
+                    <DarkThemeToggle />
+                  </div>
+                </Navbar>
+                <div className="px-5">
+                  {children}
+                </div>
+              </section>
+            </main>
+          </div>
         </Flowbite>
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js" async></script>
       </body>

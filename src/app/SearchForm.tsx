@@ -1,5 +1,6 @@
 'use client'
 
+import { Button, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 
@@ -16,8 +17,8 @@ const SearchForm = () => {
 
     return (
         <div className="flex flex-col sm:flex-row gap-4">
-            <input type="text" value={routeId} onChange={onRouteIdChanged} />
-            <button type="button" onClick={onSearch}>Go</button>
+            <TextInput type="text" placeholder="Enter Route ID" value={routeId} onChange={onRouteIdChanged} />
+            <Button type="button" onClick={onSearch}>Go</Button>
         </div>
     );
 };
