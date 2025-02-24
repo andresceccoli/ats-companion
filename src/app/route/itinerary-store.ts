@@ -1,27 +1,23 @@
 import { Itinerary, ItineraryItem, newItineraryId } from "@/model/Itinerary";
 import { create } from "zustand";
 
-type Stage = "header" | "items";
-
-interface ItineraryCreationStage {
-    stage: Stage;
-    setStage: (s: Stage) => void;
-}
-
 interface ItineraryStoreFunctions {
+    loaded: boolean;
     updateHeader: (startCity?: string, endCity?: string, endPlace?: string) => void;
     addItem: <I extends ItineraryItem>(item: I) => void;
     updateItem: <I extends ItineraryItem>(index: number, item: I) => void;
     removeItem: (index: number) => void;
     clear: () => void;
+    save: () => void;
+    load: (id: string) => Promise<boolean>;
 }
 
-type ItineraryStore = Itinerary & ItineraryStoreFunctions & ItineraryCreationStage;
+type ItineraryStore = Itinerary & ItineraryStoreFunctions;
 
-const useNewItineraryStore = create<ItineraryStore>((set) => ({
+const useItineraryStore = create<ItineraryStore>((set,get) => ({
     id: newItineraryId(),
     items: [],
-    stage: "header",
+    loaded: false,
 
     updateHeader(startCity, endCity, endPlace) {
         set(() => ({ startCity, endCity, endPlace }));
@@ -43,13 +39,31 @@ const useNewItineraryStore = create<ItineraryStore>((set) => ({
         set({
             id: newItineraryId(),
             items: [],
-            stage: "header"
+            loaded: false,
         })
     },
+    async save() {
+        const { id, startCity, endCity, endPlace, items } = get();
+        const it = { id, startCity, endCity, endPlace, items };
 
-    setStage(s) {
-        set(() => ({ stage: s }))
-    }
+        localStorage.setItem(`itinerary-${id}`, JSON.stringify(it));
+
+        console.log('saved', );
+    },
+    async load(id) {
+        try {
+            const it = localStorage.getItem(`itinerary-${id}`);
+            if (it) {
+                const itObject = JSON.parse(it);
+                set({ ...itObject, loaded: true });
+                return true;
+            }
+        } catch (e) {
+            console.error('Error loading itinerary', e);
+        }
+        set({ loaded: false });
+        return false;
+    },
 }));
 
-export default useNewItineraryStore;
+export default useItineraryStore;

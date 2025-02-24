@@ -4,12 +4,12 @@ import { Itinerary } from "@/model/Itinerary";
 import { Button, Label, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import useNewItineraryStore from "./new-itinerary-store";
+import useItineraryStore from "../itinerary-store";
 import { useShallow } from "zustand/shallow";
 
 const NewItinerary = () => {
     const { updateHeader, startCity, endCity, endPlace } =
-        useNewItineraryStore(useShallow(state => ({
+        useItineraryStore(useShallow(state => ({
             updateHeader: state.updateHeader,
             startCity: state.startCity,
             endCity: state.endCity,

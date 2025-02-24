@@ -1,7 +1,7 @@
 'use client'
 
 import { useShallow } from "zustand/shallow";
-import useNewItineraryStore from "../new-itinerary-store";
+import useItineraryStore from "../../itinerary-store";
 import RoadItemComponent from "../../road-item";
 import PoiItemComponent from "../../poi-item";
 import { createDefaultPoiItem, createDefaultRoadItem, PoiItem, PoiType, RoadItem } from "@/model/Itinerary";
@@ -17,12 +17,14 @@ const ItemsPage = () => {
         endPlace,
         items,
         addItem,
-    } = useNewItineraryStore(useShallow(state => ({
+        save,
+    } = useItineraryStore(useShallow(state => ({
         startCity: state.startCity,
         endCity: state.endCity,
         endPlace: state.endPlace,
         items: state.items,
-        addItem: state.addItem
+        addItem: state.addItem,
+        save: state.save
     })));
 
     const [currentRoadItem, setCurrentRoadItem] = useState<RoadItem | undefined>();
@@ -39,7 +41,7 @@ const ItemsPage = () => {
         setCurrentRoadItem(undefined);
     }, [addItem]);
     const onRoadItemCancel = useCallback(() => setCurrentRoadItem(undefined), []);
-    
+
     const onPoiItemAccept = useCallback((item: PoiItem) => {
         addItem(item);
         setCurrentPoiItem(undefined);
@@ -69,7 +71,7 @@ const ItemsPage = () => {
 
             <div>
                 <Button type="button" onClick={() => history.go(-1)}>Back</Button>
-                <Button type="button">Create</Button>
+                <Button type="button" onClick={save}>Create</Button>
             </div>
 
             {currentRoadItem &&
