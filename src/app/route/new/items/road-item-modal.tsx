@@ -1,20 +1,9 @@
 import { CardinalDirection, RoadItem, RoadType, TurnDirection } from "@/model/Itinerary";
 import { StateCode } from "@/model/StateCode";
-import { Button, Checkbox, Label, Modal, Radio, Select, TextInput } from "flowbite-react";
+import { Button, Checkbox, Label, Modal, Select, TextInput } from "flowbite-react";
 import { useMemo } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-const enumToObjects = (enumType: object) => Object.values(enumType).map((d, i) => {
-    const k = Object.keys(enumType)[i];
-    return ({
-        label: k,
-        value: d
-    });
-});
-
-
-const objectsToOptions = (objects: { label: string, value: string }[]) => 
-    objects.map((o) => (<option key={o.value} value={o.value}>{o.label}</option>));
+import EnumRadio, { enumToObjects, objectsToOptions } from "./EnumRadio";
 
 const roadTypeOptions = objectsToOptions(enumToObjects(RoadType));
 const stateCodeOptions = objectsToOptions(enumToObjects(StateCode));
@@ -108,12 +97,7 @@ const RoadItemModal = ({ item, onAccept, onCancel }: {
                     }
                     <div className="flex gap-4">
                         <Label>Turn</Label>
-                        {enumToObjects(TurnDirection).map(d => (
-                            <div key={d.value} className="flex gap-2">
-                                <Radio id={`turn-${d.value}`} value={d.value} {...register("turnDirection")} />
-                                <Label htmlFor={`turn-${d.value}`}>{d.label}</Label>
-                            </div>
-                        ))}
+                        <EnumRadio enumType={TurnDirection} fieldName="turnDirection" register={register} />
                     </div>
                     
 

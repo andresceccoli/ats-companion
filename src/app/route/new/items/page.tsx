@@ -8,6 +8,7 @@ import { createDefaultPoiItem, createDefaultRoadItem, PoiItem, PoiType, RoadItem
 import { Button } from "flowbite-react";
 import { useCallback, useState } from "react";
 import RoadItemModal from "./road-item-modal";
+import PoiItemModal from "./poi-item-modal";
 
 const ItemsPage = () => {
     const {
@@ -38,6 +39,12 @@ const ItemsPage = () => {
         setCurrentRoadItem(undefined);
     }, [addItem]);
     const onRoadItemCancel = useCallback(() => setCurrentRoadItem(undefined), []);
+    
+    const onPoiItemAccept = useCallback((item: PoiItem) => {
+        addItem(item);
+        setCurrentPoiItem(undefined);
+    }, [addItem]);
+    const onPoiItemCancel = useCallback(() => setCurrentPoiItem(undefined), []);
 
     return (
         <div>
@@ -69,6 +76,10 @@ const ItemsPage = () => {
                 <RoadItemModal item={currentRoadItem}
                     onAccept={onRoadItemAccept}
                     onCancel={onRoadItemCancel} />}
+            {currentPoiItem &&
+                <PoiItemModal item={currentPoiItem}
+                    onAccept={onPoiItemAccept}
+                    onCancel={onPoiItemCancel} />}
         </div>
     );
 };
