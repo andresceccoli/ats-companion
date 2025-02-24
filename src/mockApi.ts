@@ -1,4 +1,4 @@
-import { createPoiItem, createRoadItem, Itinerary } from "./model/Itinerary"
+import { CardinalDirection, createPoiItem, createRoadItem, Itinerary, PoiSide, PoiType, RoadType, TurnDirection } from "./model/Itinerary"
 
 
 const mockItinerary: Itinerary = {
@@ -7,9 +7,9 @@ const mockItinerary: Itinerary = {
     endCity: "Los Angeles",
     endPlace: "Railroad Express",
     items: [
-        createRoadItem("1", "I-5", "left", "interstate", ["s"]),
-        createRoadItem("2", "US42", "right", "us", ["w"]),
-        createPoiItem("3", "place", "right", "Railroad Express")
+        createRoadItem("I-5", TurnDirection.Left, RoadType.I, [CardinalDirection.South]),
+        createRoadItem("US42", TurnDirection.Right, RoadType.US, [CardinalDirection.West]),
+        createPoiItem(PoiType.Place, PoiSide.Right, "Railroad Express")
     ]
 };
 
