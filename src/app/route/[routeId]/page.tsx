@@ -1,7 +1,6 @@
 'use client'
 
-import { getApi } from "@/api";
-import { Itinerary, PoiItem, RoadItem } from "@/model/Itinerary";
+import { PoiItem, RoadItem } from "@/model/Itinerary";
 import React, { use, useEffect, useState } from "react";
 import RoadItemComponent from "../road-item";
 import PoiItemComponent from "../poi-item";
@@ -25,7 +24,6 @@ const RouteDetails = ({ params }: { params: Promise<{ routeId: string }>}) => {
     })));
 
     const [error, setError] = useState<string | undefined>();
-    // const [itinerary, setItinerary] = useState({} as Itinerary);
     useEffect(() => {
         if (routeId && !loaded) {
             load(routeId).then(result => {
@@ -34,10 +32,6 @@ const RouteDetails = ({ params }: { params: Promise<{ routeId: string }>}) => {
                 }
             })
         }
-        // getApi().getItinerary(routeId).then(i => {
-        //     console.log('got itinerary', i);
-        //     setItinerary(i);
-        // })
     }, [routeId, loaded, load]);
 
     console.log(itinerary && itinerary.items);
