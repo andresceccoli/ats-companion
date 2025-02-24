@@ -16,7 +16,6 @@ const enumToObjects = (enumType: object) => Object.values(enumType).map((d, i) =
 const objectsToOptions = (objects: { label: string, value: string }[]) => 
     objects.map((o) => (<option key={o.value} value={o.value}>{o.label}</option>));
 
-const turnOptions = objectsToOptions(enumToObjects(TurnDirection));
 const roadTypeOptions = objectsToOptions(enumToObjects(RoadType));
 const stateCodeOptions = objectsToOptions(enumToObjects(StateCode));
 
