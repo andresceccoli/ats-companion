@@ -53,16 +53,16 @@ export default function RootLayout({
           <div className="bg-blue-900 dark:bg-gray-900 flex flex-col">
             <main className="flex justify-center">  
               <section className="mx-0 md:mx-20 flex-1 bg-white dark:bg-gray-800 min-h-screen">
-                <Navbar fluid rounded>
+                <Navbar fluid rounded className="px-4">
                   <Navbar.Brand href="/">
                     <span className="text-2xl font-bold">American</span><span className="text-2xl">Companion</span>
                   </Navbar.Brand>
                   <div className="flex md:order-2 gap-2">
-                    <Button onClick={onNewRoute}>New Route</Button>
                     <DarkThemeToggle />
+                    <Button onClick={onNewRoute}>New Route</Button>
                   </div>
                 </Navbar>
-                <div className="px-5">
+                <div className="px-4 py-3">
                   {children}
                 </div>
               </section>

@@ -101,9 +101,10 @@ const RoadItemModal = ({ item, onAccept, onCancel }: {
                     </div>
                     
 
-                    
-                    <Button type="submit">OK</Button>
-                    <Button type="button" onClick={onCancel}>Cancel</Button>
+                    <div className="flex justify-end gap-3">
+                        <Button type="button" color="light" onClick={onCancel}>Cancel</Button>
+                        <Button type="submit">OK</Button>
+                    </div>
                 </form>
             </Modal.Body>
         </Modal>

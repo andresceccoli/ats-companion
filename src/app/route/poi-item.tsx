@@ -23,7 +23,7 @@ const PoiItemComponent = ({ item }: { item: PoiItem }) => {
                 {item.poiType === PoiType.Viewpoint && <span className="font-semibold">Viewpoint</span>}
                 {item.poiType === PoiType.Photo && <span className="font-semibold">Photo</span>}
                 {item.poiType === PoiType.Place && <span className="font-semibold">{item.poiText}</span>}
-                {item.poiType === PoiType.Details && <span>{item.poiText}</span>}
+                {item.poiType === PoiType.Details && <span className="font-light">{item.poiText}</span>}
             </div>
             {item.poiType !== PoiType.Details &&
                 <span className="text-2xl">{poiSideIcons[item.poiSide]}</span>

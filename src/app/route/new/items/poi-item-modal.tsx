@@ -33,14 +33,16 @@ const PoiItemModal = ({ item, onAccept, onCancel }: {
                     <Select id="poi-type" required {...register("poiType")}>
                         {poiTypeOptions}
                     </Select>
-                    <div className="flex gap-4">
-                        <Label>Side</Label>
-                        <EnumRadio register={register} enumType={PoiSide} fieldName="poiSide" />
-                    </div>
+                    {poiType !== PoiType.Details &&
+                        <div className="flex gap-4">
+                            <Label>Side</Label>
+                            <EnumRadio register={register} enumType={PoiSide} fieldName="poiSide" />
+                        </div>
+                    }
                     {poiType === PoiType.Details &&
                     <>
                         <Label htmlFor="poi-text">Text</Label>
-                        <Textarea id="poi-text" {...register("poiText")} />
+                        <Textarea id="poi-text" rows={4} {...register("poiText")} />
                     </>
                     }
                     {poiType === PoiType.Place &&
@@ -50,8 +52,10 @@ const PoiItemModal = ({ item, onAccept, onCancel }: {
                     </>
                     }
 
-                    <Button type="submit">OK</Button>
-                    <Button type="button" onClick={onCancel}>Cancel</Button>
+                    <div className="flex justify-end gap-3">
+                        <Button type="button" color="light" onClick={onCancel}>Cancel</Button>
+                        <Button type="submit">OK</Button>
+                    </div>
                 </form>
             </Modal.Body>
         </Modal>
