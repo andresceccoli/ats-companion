@@ -31,7 +31,7 @@ const getRoadPrefix = (roadItem: RoadItem) => {
 
 const RoadItemComponent = ({ item }: { item: RoadItem }) => {
     return (
-        <div className="flex gap-2">
+        <div className="flex gap-2 pb-2">
             <span>{turnIcons[item.turnDirection]}</span>
             {(item.roadType === RoadType.I || item.roadType === RoadType.US) &&
                 <span>{roadTypeIcons[item.roadType]}</span>
