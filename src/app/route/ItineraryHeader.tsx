@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import { Itinerary } from "@/model/Itinerary";
 import { Button, HR } from "flowbite-react";
@@ -10,16 +10,23 @@ interface ItineraryHeaderProps {
 }
 
 const ItineraryHeader = ({ itinerary }: ItineraryHeaderProps) => {
+    const onCopyId = useCallback(() => {
+        navigator.clipboard.writeText(itinerary.id);
+    }, [itinerary.id]);
+    const onCopyUrl = useCallback(() => {
+        navigator.clipboard.writeText(`${window.location.host}/route/detail?id=${itinerary.id}`);
+    }, [itinerary.id]);
+
     return (
         <>
             <div className="flex items-center justify-between gap-10 pb-3">
                 <h3 className="text-2xl">Route ID</h3>
                 <Button.Group>
-                    <Button color="light" size="lg">
+                    <Button color="light" size="lg" onClick={onCopyId}>
                         <span className="text-xl">{itinerary.id}</span>
                         <HiOutlineClipboard className="ml-3 pt-1 h-6 w-6" />
                     </Button>
-                    <Button color="light">
+                    <Button color="light" onClick={onCopyUrl}>
                         <HiMiniLink className="pt-1 h-6 w-6" />
                     </Button>
                 </Button.Group>

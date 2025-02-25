@@ -12,7 +12,7 @@ const SearchForm = () => {
         setRouteId(e.target.value);
     }, []);
     const onSearch = useCallback(() => {
-        router.push(`/route/${routeId}`);
+        router.push(`/route/detail?id=${routeId}`);
     }, [router, routeId]);
 
     return (

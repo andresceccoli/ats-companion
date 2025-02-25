@@ -1,15 +1,18 @@
 'use client'
 
 import { PoiItem, RoadItem } from "@/model/Itinerary";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import RoadItemComponent from "../road-item";
 import PoiItemComponent from "../poi-item";
 import useItineraryStore from "../itinerary-store";
 import { useShallow } from "zustand/shallow";
 import ItineraryHeader from "../ItineraryHeader";
+import { useSearchParams } from "next/navigation";
 
-const RouteDetails = ({ params }: { params: Promise<{ routeId: string }>}) => {
-    const { routeId } = use(params);
+const RouteDetails = () => {
+    const searchParams = useSearchParams();
+
+    const routeId = searchParams.get('id');
 
     const {
         load, clear,
