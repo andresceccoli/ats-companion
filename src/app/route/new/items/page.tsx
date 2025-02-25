@@ -61,7 +61,7 @@ const ItemsPage = () => {
     const router = useRouter();
     const onSave = useCallback(() => {
         save();
-        router.push(`/route/${id}`);
+        router.push(`/route/detail?id=${id}`);
     }, [id, router, save]);
 
     return (
