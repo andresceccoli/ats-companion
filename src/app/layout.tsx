@@ -26,14 +26,12 @@ export default function RootLayout({
 
   const router = useRouter();
 
-  const { clearStore, startCity } = useItineraryStore(useShallow(state => ({ clearStore: state.clear, startCity: state.startCity })));
+  const { clearStore } = useItineraryStore(useShallow(state => ({ clearStore: state.clear, startCity: state.startCity })));
 
   const onNewRoute = useCallback(() => {
     clearStore();
     router.push('/route/new');
   }, [clearStore, router]);
-
-  console.log('start city', startCity);
 
   return (
     <html lang="en">

@@ -7,13 +7,12 @@ interface ItineraryStoreFunctions {
     updateItem: <I extends ItineraryItem>(index: number, item: I) => void;
     removeItem: (index: number) => void;
     clear: () => void;
-    save: () => void;
     load: (it: Itinerary) => void;
 }
 
 type ItineraryStore = Itinerary & ItineraryStoreFunctions;
 
-const useItineraryStore = create<ItineraryStore>((set,get) => ({
+const useItineraryStore = create<ItineraryStore>((set) => ({
     id: newItineraryId(),
     items: [],
 
@@ -41,14 +40,6 @@ const useItineraryStore = create<ItineraryStore>((set,get) => ({
             endPlace: '',
             items: [],
         })
-    },
-    async save() {
-        const { id, startCity, endCity, endPlace, items } = get();
-        const it = { id, startCity, endCity, endPlace, items };
-
-        localStorage.setItem(`itinerary-${id}`, JSON.stringify(it));
-
-        console.log('saved', );
     },
     load(it) {
         set({ ...it });

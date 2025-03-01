@@ -5,14 +5,15 @@ import useItineraryStore from "../../itinerary-store";
 import RoadItemComponent from "../../road-item";
 import PoiItemComponent from "../../poi-item";
 import { createDefaultPoiItem, createDefaultRoadItem, PoiItem, PoiType, RoadItem } from "@/model/Itinerary";
-import { Button } from "flowbite-react";
+import { Button, Toast } from "flowbite-react";
 import { useCallback, useMemo, useState } from "react";
 import RoadItemModal from "./road-item-modal";
 import PoiItemModal from "./poi-item-modal";
 import ItineraryHeader from "../../ItineraryHeader";
 import { HiMiniArrowTurnUpLeft } from "react-icons/hi2";
-import { HiLocationMarker } from "react-icons/hi";
+import { HiLocationMarker, HiX } from "react-icons/hi";
 import { useRouter } from "next/navigation";
+import { getApi } from "@/api";
 
 const ItemsPage = () => {
     const {
@@ -22,7 +23,6 @@ const ItemsPage = () => {
         endPlace,
         items,
         addItem,
-        save,
     } = useItineraryStore(useShallow(state => ({
         id: state.id,
         startCity: state.startCity,
@@ -30,7 +30,6 @@ const ItemsPage = () => {
         endPlace: state.endPlace,
         items: state.items,
         addItem: state.addItem,
-        save: state.save
     })));
 
     const [currentRoadItem, setCurrentRoadItem] = useState<RoadItem | undefined>();
@@ -58,14 +57,29 @@ const ItemsPage = () => {
         id, startCity, endCity, endPlace, items
     }), [id, startCity, endCity, endPlace, items]);
 
+    const [error, setError] = useState<string | undefined>();
+
     const router = useRouter();
     const onSave = useCallback(() => {
-        save();
-        router.push(`/route/detail?id=${id}`);
-    }, [id, router, save]);
+        getApi().createItinerary(itObject).then(() => {
+            router.push(`/route/detail?id=${id}`);
+        }).catch(e => {
+            setError((e as Error).message);
+        });
+    }, [id, router, itObject]);
 
     return (
         <div className="flex flex-col gap-3">
+            {error &&
+                <Toast>
+                    <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+                        <HiX className="h-5 w-5" />
+                    </div>
+                    <div className="ml-3 text-sm font-normal">{error}</div>
+                    <Toast.Toggle />
+                </Toast>
+            }
+
             <ItineraryHeader itinerary={itObject} />
 
             {items.length === 0 &&

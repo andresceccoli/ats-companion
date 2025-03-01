@@ -8,6 +8,7 @@ import useItineraryStore from "../itinerary-store";
 import { useShallow } from "zustand/shallow";
 import ItineraryHeader from "../ItineraryHeader";
 import { useSearchParams } from "next/navigation";
+import { getApi } from "@/api";
 
 const RouteDetails = () => {
     const searchParams = useSearchParams();
@@ -31,16 +32,14 @@ const RouteDetails = () => {
     const [error, setError] = useState<string | undefined>();
     useEffect(() => {
         if (routeId && !loaded) {
-            try {
-                const it = localStorage.getItem(`itinerary-${routeId}`);
+            getApi().getItinerary(routeId).then(it => {
                 if (it) {
-                    const itObject = JSON.parse(it);
-                    load(itObject);
+                    load(it);
                     setLoaded(true);
                 }
-            } catch (e: unknown) {
+            }).catch(e => {
                 setError((e as Error).message);
-            }
+            });
         }
     }, [routeId, loaded, load, clear]);
 
