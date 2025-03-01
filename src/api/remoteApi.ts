@@ -2,7 +2,9 @@ import { Itinerary } from "@/model/Itinerary";
 import { Api } from "./api";
 import axios from "axios";
 
-const API_URL = process.env.API_URL || "http://localhost:8080";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
+console.log('connection to backend at', API_URL);
 
 const RemoteApi: Api = {
     getItinerary: async (id: string) => {
