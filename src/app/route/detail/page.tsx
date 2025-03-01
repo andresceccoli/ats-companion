@@ -36,6 +36,8 @@ const RouteDetails = () => {
                 if (it) {
                     load(it);
                     setLoaded(true);
+                } else {
+                    setError("Route not found");
                 }
             }).catch(e => {
                 setError((e as Error).message);

@@ -33,14 +33,12 @@ const getRoadPrefix = (roadItem: RoadItem) => {
 const RoadItemComponent = ({ item }: { item: RoadItem }) => {
     return (
         <ItemContainer>
-            <div className="flex gap-2 flex-1 items-center">
-                <span>{turnIcons[item.turnDirection]}</span>
-                {(item.roadType === RoadType.I || item.roadType === RoadType.US) &&
-                    <span>{roadTypeIcons[item.roadType]}</span>
-                }
-                <span className="font-bold">{getRoadPrefix(item)}{item.roadName}</span>
-                <div className="flex gap-1">{item.cardinalDirections.map((d, i) => <CardinalSign key={i} cardinalDirection={d} />)}</div>
-            </div>
+            <span>{turnIcons[item.turnDirection]}</span>
+            {(item.roadType === RoadType.I || item.roadType === RoadType.US) &&
+                <span>{roadTypeIcons[item.roadType]}</span>
+            }
+            <span className="font-bold">{getRoadPrefix(item)}{item.roadName}</span>
+            <div className="flex gap-1">{item.cardinalDirections.map((d, i) => <CardinalSign key={i} cardinalDirection={d} />)}</div>
             {item.exitCode && <ExitSign exitCode={item.exitCode} />}
         </ItemContainer>
     );

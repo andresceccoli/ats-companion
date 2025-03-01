@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import useItineraryStore from "./route/itinerary-store";
 import { useShallow } from "zustand/shallow";
+import { FaRoad } from "react-icons/fa";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -57,7 +58,8 @@ export default function RootLayout({
                   </Navbar.Brand>
                   <div className="flex md:order-2 gap-2">
                     <DarkThemeToggle />
-                    <Button onClick={onNewRoute}>New Route</Button>
+                    <Button onClick={onNewRoute} className="hidden sm:inline">New Route</Button>
+                    <Button onClick={onNewRoute} className="inline sm:hidden"><FaRoad /></Button>
                   </div>
                 </Navbar>
                 <div className="px-4 py-3">

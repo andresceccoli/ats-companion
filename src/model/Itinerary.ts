@@ -28,7 +28,7 @@ export interface RoadItem extends ItineraryItem {
     exitCode?: string;
 }
 
-export enum PoiType { Viewpoint = "viewpoint", Photo = "photo", Place = "place", Details = "details" };
+export enum PoiType { Viewpoint = "viewpoint", Photo = "photo", Place = "place", Details = "details", City = "city" };
 export enum PoiSide { Left = "left", Right = "right" };
 
 export interface PoiItem extends ItineraryItem {
