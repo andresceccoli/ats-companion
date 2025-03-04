@@ -1,8 +1,8 @@
-import { PoiItem, PoiSide, PoiType } from "@/model/Itinerary";
+import { PoiItem, PoiType } from "@/model/Itinerary";
 import { HiBuildingOffice2, HiDocument, HiMiniCamera, HiMiniVideoCamera } from "react-icons/hi2";
-import { LuArrowLeftToLine, LuArrowRightToLine } from "react-icons/lu";
 import ItemContainer from "./item-container";
 import { HiLocationMarker } from "react-icons/hi";
+import { poiSideIcons } from "./icons";
 
 const poiTypeIcons = {
     [PoiType.Viewpoint]: <HiMiniVideoCamera />,
@@ -11,11 +11,6 @@ const poiTypeIcons = {
     [PoiType.City]: <HiBuildingOffice2 />,
     [PoiType.Details]: <HiDocument />
 };
-
-const poiSideIcons = {
-    [PoiSide.Left]: <LuArrowLeftToLine />,
-    [PoiSide.Right]: <LuArrowRightToLine />
-}
 
 const PoiItemComponent = ({ item }: { item: PoiItem }) => {
     return (

@@ -2,6 +2,7 @@ import { PoiItem, PoiSide, PoiType } from "@/model/Itinerary";
 import { Button, Label, Modal, Select, Textarea, TextInput } from "flowbite-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import EnumRadio, { enumToObjects, objectsToOptions } from "./EnumRadio";
+import { poiSideIconsIndexed } from "../../icons";
 
 const poiTypeOptions = objectsToOptions(enumToObjects(PoiType));
 
@@ -34,10 +35,7 @@ const PoiItemModal = ({ item, onAccept, onCancel }: {
                         {poiTypeOptions}
                     </Select>
                     {poiType !== PoiType.Details && poiType !== PoiType.City &&
-                        <div className="flex gap-4">
-                            <Label>Side</Label>
-                            <EnumRadio register={register} enumType={PoiSide} fieldName="poiSide" />
-                        </div>
+                        <EnumRadio idPrefix="side" register={register} enumType={PoiSide} icons={poiSideIconsIndexed} fieldName="poiSide" />
                     }
                     {poiType === PoiType.Details &&
                     <>

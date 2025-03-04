@@ -15,7 +15,7 @@ export interface Itinerary {
 }
 
 export enum TurnDirection { Left = "left", Right = "right", Ahead = "ahead" };
-export enum RoadType { I = "interstate", US = "us", St = "state", Rd = "street" };
+export enum RoadType { Interstate = "interstate", US = "us", State = "state", Street = "street" };
 export enum CardinalDirection { West = "w", North = "n", East = "e", South = "s" };
 
 export interface RoadItem extends ItineraryItem {
@@ -56,7 +56,7 @@ export const createRoadItem = (roadName: string,
 });
 
 export const createDefaultRoadItem = () => createRoadItem("", TurnDirection.Left,
-    RoadType.I, []);
+    RoadType.Interstate, []);
 
 export const createPoiItem = (poiType: PoiType,
     poiSide: PoiSide, poiText: string
